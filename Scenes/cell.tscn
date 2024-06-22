@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://dlnnhupxweuyd"]
+
+[ext_resource type="Script" path="res://Scripts/Cell.gd" id="1_akf0b"]
+[ext_resource type="Texture2D" uid="uid://be4l8yaorb7qr" path="res://Sprites/1480432.png" id="2_ysgtf"]
+
+[node name="Cell" type="Node3D" node_paths=PackedStringArray("grid_decal")]
+script = ExtResource("1_akf0b")
+grid_decal = NodePath("GridDecal")
+
+[node name="GridDecal" type="Decal" parent="."]
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("2_ysgtf")
+upper_fade = 0.00437359
+lower_fade = 0.00226391

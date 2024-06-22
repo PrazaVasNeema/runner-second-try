@@ -18,7 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
-CyclopsAutoload="*res://addons/cyclops_level_builder/cyclops_global_scene.tscn"
+CyclopsAutoload="res://addons/cyclops_level_builder/cyclops_global_scene.tscn"
 SoundManager="*res://addons/sound_manager/sound_manager.gd"
 Signal_Debugger="*res://addons/SignalVisualizer/Debugger/SignalDebugger.gd"
 
@@ -28,7 +28,7 @@ movie_writer/movie_file="T:/Vortex/Godot/Runner.avi"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/SignalVisualizer/plugin.cfg", "res://addons/Todo_Manager/plugin.cfg", "res://addons/cyclops_level_builder/plugin.cfg", "res://addons/phantom_camera/plugin.cfg", "res://addons/sound_manager/plugin.cfg")
+enabled=PackedStringArray("res://addons/SignalVisualizer/plugin.cfg", "res://addons/Todo_Manager/plugin.cfg", "res://addons/phantom_camera/plugin.cfg", "res://addons/sound_manager/plugin.cfg")
 
 [input]
 
@@ -52,9 +52,6 @@ jump={
 
 3d/physics_engine="JoltPhysics3D"
 
-[shader_globals]
+[rendering]
 
-l={
-"type": "bool",
-"value": false
-}
+textures/decals/filter=0
