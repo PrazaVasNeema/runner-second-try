@@ -1,4 +1,5 @@
 @tool
+class_name RoadMaker
 extends Path3D
 
 @export_range(1, 100) var road_length = 1:
@@ -40,6 +41,12 @@ extends Path3D
 	set(value):
 		show_decals_grid = value
 		change_decals_grid_visibility(value)	
+
+@export_category("Debug")
+@export var place_obstacles_button: bool:
+	set(value):
+		place_obstacles_button = false
+		place_obstacles()
 
 @export var cell_scene : PackedScene
 
@@ -90,6 +97,7 @@ func _set_cells_matrix():
 		current_cell.queue_free()
 	_cells_matrix.clear()
 	
+	
 	var cell_size_half = cell_size / 2.0
 	var x_position : float = $Road.position.x + border_width - cell_size_half
 	var y_position : float
@@ -98,14 +106,15 @@ func _set_cells_matrix():
 		y_position = - cell_size_half
 		for j in range(0, road_length):
 			y_position += cell_size
-			var current_cell : Cell = cell_scene.instantiate()
+			var current_cell : Cell = cell_scene.instantiate() as Cell
 			$CellsContainer.add_child(current_cell, false,  0)
 			current_cell.owner = $CellsContainer.owner
-			current_cell.position = Vector3(y_position, 0.1, x_position)
+			current_cell.position = Vector3(y_position, 0.1 + cell_size_half, x_position)
 			current_cell.scale = Vector3(cell_size, cell_size, cell_size)
 			current_cell.name = "Cell_" + str(i) + "_" + str(j)
 			_cells_matrix[Vector2(i, j)] = current_cell
 			current_cell.coords = Vector2(i, j)
+			current_cell.is_good_for_placing = true
 			#call_deferred("_set_cell_coords", current_cell, Vector2(i, j))  # Example assignment
 #
 #
@@ -113,3 +122,6 @@ func _set_cells_matrix():
 	#cell.coords = coords
 	#print(cell.coords)
 
+
+func place_obstacles():
+	pass

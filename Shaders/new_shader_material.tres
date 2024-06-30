@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bpahflfp1utm2"]
+
+[ext_resource type="Shader" path="res://Shaders/obstacle_boundaries.gdshader" id="1_s82kj"]
+
+[resource]
+render_priority = -1
+shader = ExtResource("1_s82kj")

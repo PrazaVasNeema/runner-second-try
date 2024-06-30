@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://ojjpjejrdl2w"]
+
+[ext_resource type="Script" path="res://Scripts/obstacle_object.gd" id="1_aeos1"]
+[ext_resource type="Material" uid="uid://bpahflfp1utm2" path="res://Shaders/new_shader_material.tres" id="2_52nuc"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_6pgrf"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pqu68"]
+
+[node name="ObstacleObject" type="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.508525, 0)
+script = ExtResource("1_aeos1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.825, 0, 0, 0, 0.825, 0, 0, 0, 0.825, 0, 0, -0.0283074)
+mesh = SubResource("BoxMesh_6pgrf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+visible = false
+shape = SubResource("BoxShape3D_pqu68")
+
+[node name="Boundaries" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_6pgrf")
+surface_material_override/0 = ExtResource("2_52nuc")
