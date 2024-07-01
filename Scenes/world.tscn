@@ -1,10 +1,8 @@
-[gd_scene load_steps=15 format=3 uid="uid://cd854e6nrs30q"]
+[gd_scene load_steps=12 format=3 uid="uid://cd854e6nrs30q"]
 
-[ext_resource type="Script" path="res://Scripts/RoadMaker.gd" id="1_hhwu5"]
 [ext_resource type="Script" path="res://Scripts/main_loop.gd" id="1_y5wyb"]
-[ext_resource type="PackedScene" uid="uid://dlnnhupxweuyd" path="res://Scenes/cell.tscn" id="2_06m6x"]
 [ext_resource type="Texture2D" uid="uid://be4l8yaorb7qr" path="res://Sprites/1480432.png" id="2_h8tf1"]
-[ext_resource type="Script" path="res://Scripts/obstacle_placer.gd" id="4_ncsvm"]
+[ext_resource type="PackedScene" uid="uid://o6onj427635j" path="res://Scenes/road_exp_1.tscn" id="2_kpmdb"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="6_rc0mk"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="7_oqfmo"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/camera_3d_resource.gd" id="8_36r1k"]
@@ -17,13 +15,6 @@ _data = {
 "tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, -0.262232)
 }
 point_count = 8
-
-[sub_resource type="Curve3D" id="Curve3D_xwe3t"]
-_data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 0, 0),
-"tilts": PackedFloat32Array(0, 0)
-}
-point_count = 2
 
 [sub_resource type="Resource" id="Resource_4wrg0"]
 script = ExtResource("7_oqfmo")
@@ -43,10 +34,10 @@ frustum_offset = Vector2(0, 0)
 near = 0.05
 far = 4000.0
 
-[node name="World" type="Node3D" node_paths=PackedStringArray("obstacle_placer", "road_maker")]
+[node name="World" type="Node3D"]
 script = ExtResource("1_y5wyb")
-obstacle_placer = NodePath("Path3D2/ObstaclePlacer")
-road_maker = NodePath("Path3D2")
+road_scene = ExtResource("2_kpmdb")
+road_speed = 5.0
 
 [node name="Path3D3" type="Path3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.055878, -0.140818, 0.144321)
@@ -67,247 +58,6 @@ path_continuous_u = true
 path_u_distance = 1.0
 path_joined = true
 
-[node name="Path3D2" type="Path3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0016439, 0, 0.00932455)
-curve = SubResource("Curve3D_xwe3t")
-script = ExtResource("1_hhwu5")
-road_length = 15
-road_width = 3
-cell_size = 1.0
-border_width = 1.0
-cell_scene = ExtResource("2_06m6x")
-
-[node name="PathFollow3D" type="PathFollow3D" parent="Path3D2"]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
-
-[node name="Road" type="CSGPolygon3D" parent="Path3D2"]
-snap = 0.013225
-polygon = PackedVector2Array(0, 0, 0, 0.1, 5, 0.1, 5, 0)
-mode = 2
-path_node = NodePath("..")
-path_interval_type = 0
-path_interval = 1.0
-path_simplify_angle = 180.0
-path_rotation = 2
-path_local = false
-path_continuous_u = true
-path_u_distance = 1.0
-path_joined = false
-
-[node name="BorderLeft" type="CSGPolygon3D" parent="Path3D2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.100552, 0)
-snap = 0.013225
-polygon = PackedVector2Array(0, 0, 0, 0.1, 1, 0.1, 1, 0)
-mode = 2
-path_node = NodePath("..")
-path_interval_type = 0
-path_interval = 1.0
-path_simplify_angle = 180.0
-path_rotation = 2
-path_local = false
-path_continuous_u = true
-path_u_distance = 1.0
-path_joined = false
-
-[node name="BorderRight" type="CSGPolygon3D" parent="Path3D2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.100552, 4)
-snap = 0.013225
-polygon = PackedVector2Array(0, 0, 0, 0.1, 1, 0.1, 1, 0)
-mode = 2
-path_node = NodePath("..")
-path_interval_type = 0
-path_interval = 1.0
-path_simplify_angle = 180.0
-path_rotation = 2
-path_local = false
-path_continuous_u = true
-path_u_distance = 1.0
-path_joined = false
-
-[node name="CellsContainer" type="Node3D" parent="Path3D2"]
-
-[node name="Cell_0_0" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.6, 1.5)
-
-[node name="Cell_0_1" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0.6, 1.5)
-coords = Vector2(0, 1)
-
-[node name="Cell_0_2" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0.6, 1.5)
-coords = Vector2(0, 2)
-
-[node name="Cell_0_3" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0.6, 1.5)
-coords = Vector2(0, 3)
-
-[node name="Cell_0_4" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0.6, 1.5)
-coords = Vector2(0, 4)
-
-[node name="Cell_0_5" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 0.6, 1.5)
-coords = Vector2(0, 5)
-
-[node name="Cell_0_6" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 0.6, 1.5)
-coords = Vector2(0, 6)
-
-[node name="Cell_0_7" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0.6, 1.5)
-coords = Vector2(0, 7)
-
-[node name="Cell_0_8" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 0.6, 1.5)
-coords = Vector2(0, 8)
-
-[node name="Cell_0_9" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, 0.6, 1.5)
-coords = Vector2(0, 9)
-
-[node name="Cell_0_10" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 0.6, 1.5)
-coords = Vector2(0, 10)
-
-[node name="Cell_0_11" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 0.6, 1.5)
-coords = Vector2(0, 11)
-
-[node name="Cell_0_12" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 0.6, 1.5)
-coords = Vector2(0, 12)
-
-[node name="Cell_0_13" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 0.6, 1.5)
-coords = Vector2(0, 13)
-
-[node name="Cell_0_14" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5, 0.6, 1.5)
-coords = Vector2(0, 14)
-
-[node name="Cell_1_0" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.6, 2.5)
-coords = Vector2(1, 0)
-
-[node name="Cell_1_1" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0.6, 2.5)
-coords = Vector2(1, 1)
-
-[node name="Cell_1_2" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0.6, 2.5)
-coords = Vector2(1, 2)
-
-[node name="Cell_1_3" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0.6, 2.5)
-coords = Vector2(1, 3)
-
-[node name="Cell_1_4" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0.6, 2.5)
-coords = Vector2(1, 4)
-
-[node name="Cell_1_5" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 0.6, 2.5)
-coords = Vector2(1, 5)
-
-[node name="Cell_1_6" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 0.6, 2.5)
-coords = Vector2(1, 6)
-
-[node name="Cell_1_7" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0.6, 2.5)
-coords = Vector2(1, 7)
-
-[node name="Cell_1_8" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 0.6, 2.5)
-coords = Vector2(1, 8)
-
-[node name="Cell_1_9" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, 0.6, 2.5)
-coords = Vector2(1, 9)
-
-[node name="Cell_1_10" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 0.6, 2.5)
-coords = Vector2(1, 10)
-
-[node name="Cell_1_11" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 0.6, 2.5)
-coords = Vector2(1, 11)
-
-[node name="Cell_1_12" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 0.6, 2.5)
-coords = Vector2(1, 12)
-
-[node name="Cell_1_13" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 0.6, 2.5)
-coords = Vector2(1, 13)
-
-[node name="Cell_1_14" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5, 0.6, 2.5)
-coords = Vector2(1, 14)
-
-[node name="Cell_2_0" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.6, 3.5)
-coords = Vector2(2, 0)
-
-[node name="Cell_2_1" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0.6, 3.5)
-coords = Vector2(2, 1)
-
-[node name="Cell_2_2" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0.6, 3.5)
-coords = Vector2(2, 2)
-
-[node name="Cell_2_3" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0.6, 3.5)
-coords = Vector2(2, 3)
-
-[node name="Cell_2_4" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0.6, 3.5)
-coords = Vector2(2, 4)
-
-[node name="Cell_2_5" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 0.6, 3.5)
-coords = Vector2(2, 5)
-
-[node name="Cell_2_6" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 0.6, 3.5)
-coords = Vector2(2, 6)
-
-[node name="Cell_2_7" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0.6, 3.5)
-coords = Vector2(2, 7)
-
-[node name="Cell_2_8" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 0.6, 3.5)
-coords = Vector2(2, 8)
-
-[node name="Cell_2_9" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, 0.6, 3.5)
-coords = Vector2(2, 9)
-
-[node name="Cell_2_10" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 0.6, 3.5)
-coords = Vector2(2, 10)
-
-[node name="Cell_2_11" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 0.6, 3.5)
-coords = Vector2(2, 11)
-
-[node name="Cell_2_12" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 0.6, 3.5)
-coords = Vector2(2, 12)
-
-[node name="Cell_2_13" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 0.6, 3.5)
-coords = Vector2(2, 13)
-
-[node name="Cell_2_14" parent="Path3D2/CellsContainer" instance=ExtResource("2_06m6x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5, 0.6, 3.5)
-coords = Vector2(2, 14)
-
-[node name="ObstaclePlacer" type="Node3D" parent="Path3D2"]
-script = ExtResource("4_ncsvm")
-
 [node name="Decal" type="Decal" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.18923, 0, 0.183096)
 size = Vector3(1, 1, 1)
@@ -320,7 +70,6 @@ transform = Transform3D(0.685176, 0.221505, -0.69388, 0, 0.952638, 0.304107, 0.7
 script = ExtResource("10_f7nh5")
 
 [node name="PhantomCamera3D" type="Node3D" parent="Node3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 script = ExtResource("6_rc0mk")
 tween_resource = SubResource("Resource_4wrg0")
 camera_3d_resource = SubResource("Resource_vn6nm")
@@ -334,3 +83,5 @@ script = ExtResource("9_jbibu")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.870337, 0.290878, -0.39737, 0, 0.806915, 0.590668, 0.492456, -0.514081, 0.702288, -0.203626, 2.62001, 7.03562)
 shadow_enabled = true
+
+[node name="RoadsStructure" type="Node3D" parent="."]

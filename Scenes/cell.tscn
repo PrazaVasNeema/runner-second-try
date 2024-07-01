@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://dlnnhupxweuyd"]
+[gd_scene load_steps=4 format=3 uid="uid://dlnnhupxweuyd"]
 
 [ext_resource type="Script" path="res://Scripts/Cell.gd" id="1_akf0b"]
 [ext_resource type="Texture2D" uid="uid://be4l8yaorb7qr" path="res://Sprites/1480432.png" id="2_ysgtf"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ds58i"]
 
 [node name="Cell" type="Node3D" node_paths=PackedStringArray("grid_decal")]
 script = ExtResource("1_akf0b")
@@ -12,3 +14,10 @@ size = Vector3(1, 1, 1)
 texture_albedo = ExtResource("2_ysgtf")
 upper_fade = 0.00437359
 lower_fade = 0.00226391
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_ds58i")
+
+[connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]

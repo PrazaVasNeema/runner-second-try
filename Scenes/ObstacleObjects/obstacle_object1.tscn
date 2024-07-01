@@ -20,5 +20,6 @@ visible = false
 shape = SubResource("BoxShape3D_pqu68")
 
 [node name="Boundaries" type="MeshInstance3D" parent="."]
+visible = false
 mesh = SubResource("BoxMesh_6pgrf")
 surface_material_override/0 = ExtResource("2_52nuc")

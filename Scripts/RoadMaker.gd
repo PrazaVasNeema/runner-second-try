@@ -1,6 +1,8 @@
 @tool
 class_name RoadMaker
-extends Path3D
+extends Node3D
+
+@export var parent : RoadPiece
 
 @export_range(1, 100) var road_length = 1:
 	set(value):
@@ -51,10 +53,18 @@ extends Path3D
 @export var cell_scene : PackedScene
 
 var _cells_matrix : Dictionary
+var _road : CSGPolygon3D
+var _border_left : CSGPolygon3D
+var _border_right : CSGPolygon3D
+var _cells_container : Node3D
 
 
 func _ready():
-	for cell in $CellsContainer.get_children():
+	_road = parent.get_node("Road")
+	_border_left = parent.get_node("BorderLeft")
+	_border_right = parent.get_node("BorderRight")
+	_cells_container = parent.get_node("CellsContainer")
+	for cell in _cells_container.get_children():
 		_cells_matrix[(cell as Cell).coords] = cell
 
 func make_road():
@@ -64,22 +74,25 @@ func make_road():
 	var final_length = road_length * cell_size
 	var final_width = road_width * cell_size + border_width * 2.0
 	
-	curve.set_point_position(1, Vector3(final_length, 0, 0))
+	parent.curve.set_point_position(1, Vector3(final_length, 0, 0))
 	
-	var points = $Road.polygon
+	var points = _road.polygon
 	points[2] = Vector2(final_width, 0.1)
 	points[3] = Vector2(final_width, 0.0)
-	$Road.polygon = points
+	_road.polygon = points
 	
 	points[2] = Vector2(border_width, 0.1)
 	points[3] = Vector2(border_width, 0.0)
-	$BorderLeft.polygon = points
+	_border_left.polygon = points
 	
-	$BorderRight.position = Vector3(0, $BorderRight.position.y, $Road.position.z + final_width - border_width)
-	$BorderRight.polygon = points
+	_border_right.position = Vector3(0, _border_right.position.y, _road.position.z + final_width - border_width)
+	_border_right.polygon = points
 	
 	
 	_set_cells_matrix()
+	parent.road_width = road_width
+	parent.road_length = final_length
+	parent.road_length_in_cells = road_length
 	
 	
 
@@ -99,7 +112,7 @@ func _set_cells_matrix():
 	
 	
 	var cell_size_half = cell_size / 2.0
-	var x_position : float = $Road.position.x + border_width - cell_size_half
+	var x_position : float = _road.position.x + border_width - cell_size_half
 	var y_position : float
 	for i in range (0, road_width):
 		x_position += cell_size
@@ -107,15 +120,16 @@ func _set_cells_matrix():
 		for j in range(0, road_length):
 			y_position += cell_size
 			var current_cell : Cell = cell_scene.instantiate() as Cell
-			$CellsContainer.add_child(current_cell, false,  0)
-			current_cell.owner = $CellsContainer.owner
-			current_cell.position = Vector3(y_position, 0.1 + cell_size_half, x_position)
+			_cells_container.add_child(current_cell, false,  0)
+			current_cell.owner = _cells_container.owner
+			current_cell.position = Vector3(y_position, 0.1 + cell_size_half - cell_size * 0.1, x_position)
 			current_cell.scale = Vector3(cell_size, cell_size, cell_size)
 			current_cell.name = "Cell_" + str(i) + "_" + str(j)
 			_cells_matrix[Vector2(i, j)] = current_cell
 			current_cell.coords = Vector2(i, j)
 			current_cell.is_good_for_placing = true
 			#call_deferred("_set_cell_coords", current_cell, Vector2(i, j))  # Example assignment
+
 #
 #
 #func _set_cell_coords(cell, coords):
