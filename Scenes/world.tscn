@@ -37,7 +37,7 @@ far = 4000.0
 [node name="World" type="Node3D"]
 script = ExtResource("1_y5wyb")
 road_scene = ExtResource("2_kpmdb")
-road_speed = 5.0
+road_speed = 10.0
 
 [node name="Path3D3" type="Path3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.055878, -0.140818, 0.144321)
@@ -66,7 +66,7 @@ upper_fade = 0.00437359
 lower_fade = 0.00226391
 
 [node name="Node3D" type="Node3D" parent="."]
-transform = Transform3D(0.685176, 0.221505, -0.69388, 0, 0.952638, 0.304107, 0.728377, -0.208367, 0.652725, -2.05535, 3.43158, 8.75933)
+transform = Transform3D(0.719255, 0.509793, -0.472, 0, 0.679384, 0.733782, 0.694746, -0.527777, 0.488651, 0.607057, 4.6962, 5.661)
 script = ExtResource("10_f7nh5")
 
 [node name="PhantomCamera3D" type="Node3D" parent="Node3D"]
@@ -75,7 +75,7 @@ tween_resource = SubResource("Resource_4wrg0")
 camera_3d_resource = SubResource("Resource_vn6nm")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.685176, 0.221505, -0.69388, 0, 0.952638, 0.304107, 0.728377, -0.208367, 0.652725, -2.05535, 3.43158, 8.75933)
+transform = Transform3D(0.719255, 0.509793, -0.472, 0, 0.679384, 0.733782, 0.694746, -0.527777, 0.488651, 0.607057, 4.6962, 5.661)
 
 [node name="PhantomCameraHost" type="Node" parent="Camera3D"]
 script = ExtResource("9_jbibu")

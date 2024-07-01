@@ -29,12 +29,14 @@ func place_obstacles(obstacles_matrix : Dictionary, road_width : int, road_lengt
 			var scene_instance = object_scenes[randi() % object_scenes.size()].instantiate() as ObstacleObject
 			scene_instance.position = cur_cell.position
 			scene_instance.scale = cur_cell.scale
+			cur_cell.obstacle_object = scene_instance
 			add_child(scene_instance)
 			cur_cell.is_good_for_placing = false
 			if (random_length_ind - 1 >= 0):
 				(obstacles_matrix[Vector2(random_width_ind, random_length_ind - 1)] as Cell).is_good_for_placing = false
 			if (random_length_ind + 1 < road_length):
 				(obstacles_matrix[Vector2(random_width_ind, random_length_ind + 1)] as Cell).is_good_for_placing = false
+			
 			cur_placed_count += 1
 		else:
 			cur_failed_iters += 1

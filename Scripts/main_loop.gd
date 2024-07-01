@@ -23,7 +23,8 @@ func add_to_queue(item):
 
 # Removes the front item from the queue and returns whether or not the queue was empty
 func finish_queue_front():
-	return bool(queue.pop_front())
+	queue[0].queue_free()
+	return queue.pop_front()
 
 
 # Called when the node enters the scene tree for the first time.
@@ -52,8 +53,16 @@ func init_road():
 		#_cur_road_ind += 1
 	_cur_road_remaining_length = 0.0
 
-#func do_update_structure():
-	#
+func do_update_structure():
+	finish_queue_front()
+	var road_instance = road_scene.instantiate() as RoadPiece
+	_roads_structure.add_child(road_instance)
+	road_instance.fill_cells_matrix()
+	road_instance.position = Vector3(_front_position, 0.0, 0.0)
+	_front_position += road_instance.road_length
+	print((road_instance.cells_matrix[Vector2(1,1)] as Cell).position)
+	(road_instance.obstacle_placer as ObstaclePlacer).place_obstacles(road_instance.cells_matrix, road_instance.road_width, road_instance.road_length_in_cells)
+	add_to_queue(road_instance)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -62,6 +71,8 @@ func _process(delta):
 		for road : RoadPiece in queue:
 			road.position += Vector3(-move_for_value, 0.0, 0.0)
 		_cur_road_remaining_length -= move_for_value
+		_front_position -= move_for_value
 	else:
+		do_update_structure()
 		_cur_road_remaining_length = (queue[_cur_road_ind] as RoadPiece).road_length + _cur_road_remaining_length
-		_cur_road_ind += 1
+		
