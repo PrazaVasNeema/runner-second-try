@@ -1,12 +1,14 @@
-[gd_scene load_steps=12 format=3 uid="uid://cd854e6nrs30q"]
+[gd_scene load_steps=14 format=3 uid="uid://cd854e6nrs30q"]
 
 [ext_resource type="Script" path="res://Scripts/main_loop.gd" id="1_y5wyb"]
 [ext_resource type="Texture2D" uid="uid://be4l8yaorb7qr" path="res://Sprites/1480432.png" id="2_h8tf1"]
 [ext_resource type="PackedScene" uid="uid://o6onj427635j" path="res://Scenes/road_exp_1.tscn" id="2_kpmdb"]
+[ext_resource type="PackedScene" uid="uid://dupcr16kxrewr" path="res://Scenes/player.tscn" id="3_w7hke"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="6_rc0mk"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="7_oqfmo"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/camera_3d_resource.gd" id="8_36r1k"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="9_jbibu"]
+[ext_resource type="Script" path="res://Scripts/input_controller.gd" id="9_uym70"]
 [ext_resource type="Script" path="res://Scripts/camera_controller.gd" id="10_f7nh5"]
 
 [sub_resource type="Curve3D" id="Curve3D_4sx3n"]
@@ -38,6 +40,7 @@ far = 4000.0
 script = ExtResource("1_y5wyb")
 road_scene = ExtResource("2_kpmdb")
 road_speed = 10.0
+player_scene = ExtResource("3_w7hke")
 
 [node name="Path3D3" type="Path3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.055878, -0.140818, 0.144321)
@@ -65,17 +68,18 @@ texture_albedo = ExtResource("2_h8tf1")
 upper_fade = 0.00437359
 lower_fade = 0.00226391
 
-[node name="Node3D" type="Node3D" parent="."]
-transform = Transform3D(0.719255, 0.509793, -0.472, 0, 0.679384, 0.733782, 0.694746, -0.527777, 0.488651, 0.607057, 4.6962, 5.661)
-script = ExtResource("10_f7nh5")
-
-[node name="PhantomCamera3D" type="Node3D" parent="Node3D"]
+[node name="PhantomCamera3D" type="Node3D" parent="."]
+transform = Transform3D(0.719255, 0.509793, -0.472, 0, 0.679384, 0.733782, 0.694746, -0.527777, 0.488651, -1.06097, 4.6962, 5.661)
 script = ExtResource("6_rc0mk")
 tween_resource = SubResource("Resource_4wrg0")
 camera_3d_resource = SubResource("Resource_vn6nm")
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="Node3D" type="Node3D" parent="."]
 transform = Transform3D(0.719255, 0.509793, -0.472, 0, 0.679384, 0.733782, 0.694746, -0.527777, 0.488651, 0.607057, 4.6962, 5.661)
+script = ExtResource("10_f7nh5")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.719255, 0.509793, -0.472, 0, 0.679384, 0.733782, 0.694746, -0.527777, 0.488651, -1.06097, 4.6962, 5.661)
 
 [node name="PhantomCameraHost" type="Node" parent="Camera3D"]
 script = ExtResource("9_jbibu")
@@ -85,3 +89,11 @@ transform = Transform3D(0.870337, 0.290878, -0.39737, 0, 0.806915, 0.590668, 0.4
 shadow_enabled = true
 
 [node name="RoadsStructure" type="Node3D" parent="."]
+
+[node name="InputController" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("9_uym70")
+
+[node name="MoveCooldown" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true

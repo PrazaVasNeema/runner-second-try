@@ -1,7 +1,7 @@
 class_name FreeLookCamera extends Node3D
 
 # Modifier keys' speed multiplier
-const SHIFT_MULTIPLIER = 2.5
+const SHIFT_MULTIPLIER = 200.5
 const ALT_MULTIPLIER = 1.0 / SHIFT_MULTIPLIER
 
 
@@ -14,7 +14,7 @@ var _total_pitch = 0.0
 # Movement state
 var _direction = Vector3(0.0, 0.0, 0.0)
 var _velocity = Vector3(0.0, 0.0, 0.0)
-var _acceleration = 30
+var _acceleration = 300
 var _deceleration = -10
 var _vel_multiplier = 4
 

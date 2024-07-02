@@ -93,6 +93,8 @@ func make_road():
 	parent.road_width = road_width
 	parent.road_length = final_length
 	parent.road_length_in_cells = road_length
+	parent.first_row_coords = border_width + cell_size / 2
+	parent.cell_size = cell_size
 	
 	
 
